@@ -11,6 +11,7 @@ import { ormConfig } from './database/config/ormconfig';
       isGlobal: true,
     }),
     TypeOrmModule.forRoot(ormConfig()),
+    ExamModule,
   ],
   controllers: [],
   providers: [],

@@ -118,4 +118,16 @@ describe('Exam Service', () => {
       expect(exam).toEqual(makeFakeExam());
     });
   });
+
+  describe('Exam Service list', () => {
+    test('should calls findAll method in repository', async () => {
+      const { sut, examRepositoryStub } = makeSut();
+
+      const listSpy = jest.spyOn(examRepositoryStub, 'findAll');
+
+      await sut.list();
+
+      expect(listSpy).toBeCalled();
+    });
+  });
 });

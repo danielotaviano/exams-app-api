@@ -1,5 +1,6 @@
 import { HttpException, Inject, Injectable } from '@nestjs/common';
 import { CreateQuestionDto } from './dtos/create-question.dto';
+import { FindOneQuestionDto } from './dtos/find-one-question.dto';
 import { ListQuestionDto } from './dtos/list-question.dto';
 import { Question } from './entity/question.entity';
 import { OptionsValidateInterface } from './interface/options-validate.interface';
@@ -31,5 +32,8 @@ export class QuestionService implements QuestionServiceInterface {
 
   public async list(questionDto: ListQuestionDto): Promise<Question[]> {
     return await this.questionsRepository.findByExamId(questionDto.examId);
+  }
+  public async findOne(questionDto: FindOneQuestionDto): Promise<Question> {
+    return await this.questionsRepository.findById(questionDto.id);
   }
 }

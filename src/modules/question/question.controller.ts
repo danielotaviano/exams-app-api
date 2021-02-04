@@ -1,5 +1,6 @@
-import { Body, Controller, Get, Inject, Post } from '@nestjs/common';
+import { Body, Controller, Get, Inject, Param, Post } from '@nestjs/common';
 import { CreateQuestionDto } from './dtos/create-question.dto';
+import { FindOneQuestionDto } from './dtos/find-one-question.dto';
 import { ListQuestionDto } from './dtos/list-question.dto';
 import { Question } from './entity/question.entity';
 import { QuestionServiceInterface } from './interface/question.service.interface';
@@ -21,5 +22,12 @@ export class QuestionController {
   @Get()
   public async list(@Body() questionDto: ListQuestionDto): Promise<Question[]> {
     return await this.questionService.list(questionDto);
+  }
+
+  @Get(':id')
+  public async findOne(
+    @Param() questionDto: FindOneQuestionDto,
+  ): Promise<Question> {
+    return await this.questionService.findOne(questionDto);
   }
 }

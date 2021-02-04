@@ -46,9 +46,7 @@ export class ExamController {
   @HttpCode(204)
   @Delete(':id')
   public async delete(@Param() examIdDto: DeleteExamIdDto): Promise<void> {
-    const result = await this.examService.delete(examIdDto);
-    if (result.affected === 0)
-      throw new HttpException('the exam with this id does not exist', 404);
+    await this.examService.delete(examIdDto);
   }
 
   @HttpCode(204)
@@ -57,8 +55,6 @@ export class ExamController {
     @Param() examIdDto: UpdateExamIdDto,
     @Body() examDto: UpdateExamDto,
   ) {
-    const result = await this.examService.update(examIdDto, examDto);
-    if (result.affected === 0)
-      throw new HttpException('the exam with this id does not exist', 404);
+    await this.examService.update(examIdDto, examDto);
   }
 }

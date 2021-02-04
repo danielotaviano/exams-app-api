@@ -1,5 +1,4 @@
-import { Inject, Injectable } from '@nestjs/common';
-import { DeleteResult, UpdateResult } from 'typeorm';
+import { HttpException, Inject, Injectable } from '@nestjs/common';
 import { CreateExamDto } from './dtos/create-exam.dto';
 import { FindOneExamIdDto } from './dtos/find-one-exam-id.dto';
 import { DeleteExamIdDto } from './dtos/remove-exam-id.dto';
@@ -17,25 +16,30 @@ export class ExamService implements ExamServiceInterface {
   public async create(examDto: CreateExamDto): Promise<Exam> {
     const exam = new Exam();
     Object.assign(exam, examDto);
-    return this.examRepository.create(exam);
+    return await this.examRepository.create(exam);
   }
 
   public async list(): Promise<Exam[]> {
-    return this.examRepository.findAll();
+    return await this.examRepository.findAll();
   }
 
-  public async delete(examDto: DeleteExamIdDto): Promise<DeleteResult> {
-    return this.examRepository.remove(examDto.id);
+  public async delete(examDto: DeleteExamIdDto): Promise<void> {
+    const result = await this.examRepository.remove(examDto.id);
+
+    if (result.affected === 0)
+      throw new HttpException('the exam with this id does not exist', 404);
   }
 
   public async findOne(examDto: FindOneExamIdDto): Promise<Exam> {
-    return this.examRepository.findById(examDto.id);
+    return await this.examRepository.findById(examDto.id);
   }
 
   public async update(
     examIdDto: UpdateExamIdDto,
     examDto: UpdateExamDto,
-  ): Promise<UpdateResult> {
-    return await this.examRepository.update(examIdDto.id, examDto);
+  ): Promise<void> {
+    const result = await this.examRepository.update(examIdDto.id, examDto);
+    if (result.affected === 0)
+      throw new HttpException('the exam with this id does not exist', 404);
   }
 }

@@ -16,7 +16,7 @@ import { ListQuestionDto } from './dtos/list-question.dto';
 import {
   UpdateQuestionDto,
   UpdateQuestionIdDto,
-} from './dtos/update-question-dto';
+} from './dtos/update-question.dto';
 import { Question } from './entity/question.entity';
 import { QuestionServiceInterface } from './interface/question.service.interface';
 

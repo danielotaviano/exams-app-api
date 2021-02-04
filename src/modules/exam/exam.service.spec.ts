@@ -218,4 +218,19 @@ describe('Exam Service', () => {
       expect(response).toEqual(makeFakeExam());
     });
   });
+
+  describe('Exam Service update', () => {
+    test('should calls update method in repository with correct value', async () => {
+      const { sut, examRepositoryStub } = makeSut();
+
+      const updateSpy = jest.spyOn(examRepositoryStub, 'update');
+
+      const findOneExamIdDto = {
+        id: 'any_id',
+      };
+      await sut.update(findOneExamIdDto, makeFakeExam());
+
+      expect(updateSpy).toBeCalledWith('any_id', makeFakeExam());
+    });
+  });
 });

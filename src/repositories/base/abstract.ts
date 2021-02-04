@@ -1,5 +1,5 @@
 import { InterfaceRepository } from './interface';
-import { DeleteResult, Repository } from 'typeorm';
+import { DeleteResult, Repository, UpdateResult } from 'typeorm';
 
 export abstract class AbstractRepository<T> implements InterfaceRepository<T> {
   private entity: Repository<T>;
@@ -12,20 +12,15 @@ export abstract class AbstractRepository<T> implements InterfaceRepository<T> {
     return await this.entity.save(data);
   }
 
-  public async findOneById(id: number): Promise<T> {
+  public async findById(id: string): Promise<T> {
     return await this.entity.findOne(id);
-  }
-
-  public async findByCondition(filterCondition: any): Promise<T> {
-    return await this.entity.findOne({ where: filterCondition });
-  }
-
-  public async findWithRelations(relations: any): Promise<T[]> {
-    return await this.entity.find(relations);
   }
 
   public async findAll(): Promise<T[]> {
     return await this.entity.find();
+  }
+  public async update(id: string, entity: T): Promise<UpdateResult> {
+    return await this.entity.update(id, entity);
   }
 
   public async remove(id: string): Promise<DeleteResult> {

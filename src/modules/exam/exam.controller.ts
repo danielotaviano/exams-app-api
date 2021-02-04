@@ -1,4 +1,4 @@
-import { Body, Controller, Inject, Post } from '@nestjs/common';
+import { Body, Controller, Get, Inject, Post } from '@nestjs/common';
 import { CreateExamDto } from './dtos/create-exam.dto';
 import { Exam } from './entity/exam.entity';
 import { ExamServiceInterface } from './interface/exam.service.interface';
@@ -9,6 +9,11 @@ export class ExamController {
     @Inject('ExamServiceInterface')
     private readonly examService: ExamServiceInterface,
   ) {}
+
+  @Get()
+  public async list(): Promise<Exam[]> {
+    return await this.examService.list();
+  }
 
   @Post()
   public async create(@Body() examDto: CreateExamDto): Promise<Exam> {

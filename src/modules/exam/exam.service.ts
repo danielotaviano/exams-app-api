@@ -14,4 +14,8 @@ export class ExamService implements ExamServiceInterface {
     Object.assign(exam, userDto);
     return this.examRepository.create(exam);
   }
+
+  public async list(): Promise<Exam[]> {
+    return this.examRepository.findAll();
+  }
 }

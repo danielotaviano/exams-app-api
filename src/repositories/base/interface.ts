@@ -1,15 +1,13 @@
-import { DeleteResult } from 'typeorm';
+import { DeleteResult, UpdateResult } from 'typeorm';
 
 export interface InterfaceRepository<T> {
   create(data: T | any): Promise<T>;
 
-  findOneById(id: number): Promise<T>;
-
-  findByCondition(filterCondition: any): Promise<T>;
-
   findAll(): Promise<T[]>;
+
+  findById(id: string): Promise<T>;
 
   remove(id: string): Promise<DeleteResult>;
 
-  findWithRelations(relations: any): Promise<T[]>;
+  update(id: string, entity: T): Promise<UpdateResult>;
 }

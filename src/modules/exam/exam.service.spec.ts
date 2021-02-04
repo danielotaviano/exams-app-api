@@ -250,5 +250,16 @@ describe('Exam Service', () => {
         new HttpException('the exam with this id does not exist', 404),
       );
     });
+
+    test('should not return on success', async () => {
+      const { sut } = makeSut();
+
+      const findOneExamIdDto = {
+        id: 'any_id',
+      };
+      const response = await sut.update(findOneExamIdDto, makeFakeExam());
+
+      expect(response).toBeFalsy();
+    });
   });
 });

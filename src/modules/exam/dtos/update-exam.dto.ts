@@ -1,4 +1,4 @@
-import { IsIn, IsOptional } from 'class-validator';
+import { IsIn, IsNotEmpty, IsOptional, IsUUID } from 'class-validator';
 import { Exam, ExamType } from '../entity/exam.entity';
 
 export class UpdateExamDto extends Exam {
@@ -11,4 +11,10 @@ export class UpdateExamDto extends Exam {
   @IsOptional()
   @IsIn(['ONLINE', 'OFFLINE'])
   type: ExamType;
+}
+
+export class UpdateExamIdDto {
+  @IsNotEmpty()
+  @IsUUID()
+  id: string;
 }

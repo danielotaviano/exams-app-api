@@ -11,9 +11,9 @@ import {
   Put,
 } from '@nestjs/common';
 import { CreateExamDto } from './dtos/create-exam.dto';
-import { FindOneExamDto } from './dtos/find-one-exam.dto';
-import { DeleteExamDto } from './dtos/remove-exam.dto';
-import { UpdateExamDto } from './dtos/update-exam.dto';
+import { FindOneExamIdDto } from './dtos/find-one-exam-id.dto';
+import { DeleteExamIdDto } from './dtos/remove-exam-id.dto';
+import { UpdateExamDto, UpdateExamIdDto } from './dtos/update-exam.dto';
 import { Exam } from './entity/exam.entity';
 import { ExamServiceInterface } from './interface/exam.service.interface';
 
@@ -30,8 +30,8 @@ export class ExamController {
   }
 
   @Get(':id')
-  public async findOne(@Param() examDto: FindOneExamDto): Promise<Exam> {
-    const exam = await this.examService.findOne(examDto);
+  public async findOne(@Param() examDIdto: FindOneExamIdDto): Promise<Exam> {
+    const exam = await this.examService.findOne(examDIdto);
     if (!exam)
       throw new HttpException('the exam with this id does not exist', 404);
 
@@ -45,15 +45,18 @@ export class ExamController {
 
   @HttpCode(204)
   @Delete(':id')
-  public async delete(@Param() examDto: DeleteExamDto): Promise<void> {
-    const result = await this.examService.delete(examDto);
+  public async delete(@Param() examIdDto: DeleteExamIdDto): Promise<void> {
+    const result = await this.examService.delete(examIdDto);
     if (result.affected === 0)
       throw new HttpException('the exam with this id does not exist', 404);
   }
 
   @HttpCode(204)
   @Put(':id')
-  public async update(@Param('id') id: string, @Body() examDto: UpdateExamDto) {
-    return await this.examService.update(id, examDto);
+  public async update(
+    @Param() examIdDto: UpdateExamIdDto,
+    @Body() examDto: UpdateExamDto,
+  ) {
+    return await this.examService.update(examIdDto, examDto);
   }
 }

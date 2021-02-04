@@ -1,6 +1,6 @@
 import { IsNotEmpty, IsUUID } from 'class-validator';
 
-export class DeleteExamDto {
+export class FindOneExamIdDto {
   @IsNotEmpty()
   @IsUUID()
   id: string;

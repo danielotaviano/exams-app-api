@@ -3,6 +3,7 @@ import { Module } from '@nestjs/common';
 import { ConfigModule } from '@nestjs/config';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { ormConfig } from './database/config/ormconfig';
+import { QuestionModule } from './modules/question/question.module';
 
 @Module({
   imports: [
@@ -12,6 +13,7 @@ import { ormConfig } from './database/config/ormconfig';
     }),
     TypeOrmModule.forRoot(ormConfig()),
     ExamModule,
+    QuestionModule,
   ],
   controllers: [],
   providers: [],

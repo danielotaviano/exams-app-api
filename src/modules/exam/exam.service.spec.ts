@@ -232,5 +232,23 @@ describe('Exam Service', () => {
 
       expect(updateSpy).toBeCalledWith('any_id', makeFakeExam());
     });
+    test('should throws a HttpException if result.affected is 0', async () => {
+      const { sut, examRepositoryStub } = makeSut();
+
+      jest
+        .spyOn(examRepositoryStub, 'update')
+        .mockReturnValueOnce(
+          Promise.resolve({ raw: [], affected: 0, generatedMaps: [] }),
+        );
+
+      const updateExamIdDto = {
+        id: 'any_id',
+      };
+      const promise = sut.update(updateExamIdDto, makeFakeExam());
+
+      await expect(promise).rejects.toThrow(
+        new HttpException('the exam with this id does not exist', 404),
+      );
+    });
   });
 });

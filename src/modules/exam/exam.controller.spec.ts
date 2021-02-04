@@ -155,3 +155,18 @@ describe('Exam Controller FindOne', () => {
     expect(exam).toEqual(makeFakeExam());
   });
 });
+
+describe('Exam Controller delete', () => {
+  test('should call delete on service with correct values', async () => {
+    const { sut, examServiceStub } = makeSut();
+
+    const deleteeSpy = jest.spyOn(examServiceStub, 'delete');
+
+    const deleteExamDto = {
+      id: 'any_id',
+    };
+    await sut.delete(deleteExamDto);
+
+    expect(deleteeSpy).toHaveBeenCalledWith(deleteExamDto);
+  });
+});

@@ -79,4 +79,11 @@ describe('Exam Controller List', () => {
 
     expect(listSpy).toHaveBeenCalled();
   });
+  test('should return a list of exams on success', async () => {
+    const { sut } = makeSut();
+
+    const exams = await sut.list();
+
+    expect(exams).toEqual(makeFakeExams());
+  });
 });

@@ -75,7 +75,9 @@
     "collectCoverageFrom": [
       "**/*.(t|j)s",
       "!**/**.dto.ts",
-      "!**/**.entity.ts"
+      "!**/**.entity.ts",
+      "!**/**.module.ts",
+      "!**/database/config/*.ts"
     ],
     "coverageDirectory": "../coverage",
     "testEnvironment": "node",

@@ -7,11 +7,16 @@ import {
   Inject,
   Param,
   Post,
+  Put,
 } from '@nestjs/common';
 import { CreateQuestionDto } from './dtos/create-question.dto';
 import { DeleteQuestionDto } from './dtos/delete-question.dto';
 import { FindOneQuestionDto } from './dtos/find-one-question.dto';
 import { ListQuestionDto } from './dtos/list-question.dto';
+import {
+  UpdateQuestionDto,
+  UpdateQuestionIdDto,
+} from './dtos/update-question-dto';
 import { Question } from './entity/question.entity';
 import { QuestionServiceInterface } from './interface/question.service.interface';
 
@@ -45,5 +50,14 @@ export class QuestionController {
   @Delete(':id')
   public async delete(@Param() questionDto: DeleteQuestionDto) {
     await this.questionService.delete(questionDto);
+  }
+
+  @HttpCode(204)
+  @Put(':id')
+  public async update(
+    @Param() questionIdDto: UpdateQuestionIdDto,
+    @Body() questionDto: UpdateQuestionDto,
+  ) {
+    await this.questionService.update(questionIdDto.id, questionDto);
   }
 }

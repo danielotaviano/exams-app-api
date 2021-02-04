@@ -21,7 +21,10 @@ export class Question {
   @Column({ nullable: false, type: 'varchar' })
   statement: string;
 
-  @ManyToOne(() => Exam, (exam) => exam.questions)
+  @ManyToOne(() => Exam, (exam) => exam.questions, {
+    onDelete: 'CASCADE',
+    onUpdate: 'CASCADE',
+  })
   @JoinColumn({ name: 'examId' })
   exam: Exam;
 
@@ -31,6 +34,8 @@ export class Question {
   @OneToMany(() => Option, (option) => option.question, {
     eager: true,
     cascade: true,
+    onDelete: 'CASCADE',
+    onUpdate: 'CASCADE',
   })
   options: Option[];
 

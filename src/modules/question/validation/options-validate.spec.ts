@@ -28,4 +28,18 @@ describe('OptionsValidate Validation', () => {
       expect(isValid).toBeTruthy();
     });
   });
+  describe('Validate Equal Values', () => {
+    test('should returns false if there is option with same value', () => {
+      const options: CreateQuestionOptionsDto[] = [
+        { correct: true, value: 'any_value' },
+        { correct: false, value: 'any_value' },
+      ];
+
+      const sut = new OptionsValidate();
+
+      const isValid = sut.validadeEqualValues(options);
+
+      expect(isValid).toBeFalsy();
+    });
+  });
 });

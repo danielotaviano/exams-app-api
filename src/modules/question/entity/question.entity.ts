@@ -1,10 +1,12 @@
 import { Exam } from 'src/modules/exam/entity/exam.entity';
+import { Option } from 'src/modules/option/entity/option.entity';
 import {
   Column,
   CreateDateColumn,
   Entity,
   JoinColumn,
   ManyToOne,
+  OneToMany,
   PrimaryGeneratedColumn,
   UpdateDateColumn,
 } from 'typeorm';
@@ -23,6 +25,9 @@ export class Question {
 
   @Column()
   examId: string;
+
+  @OneToMany(() => Option, (option) => option.question, { eager: true })
+  options: Option[];
 
   @CreateDateColumn()
   createdAt: Date;

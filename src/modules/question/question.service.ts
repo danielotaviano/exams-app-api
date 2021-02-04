@@ -15,9 +15,9 @@ export class QuestionService implements QuestionServiceInterface {
   ) {}
   public async create(questionDto: CreateQuestionDto): Promise<Question> {
     const isValidOptions = this.optionsValidate.validate(questionDto.options);
-
     if (!isValidOptions)
       throw new HttpException('must be have at least 1 correct option', 400);
+
     return await this.questionsRepository.create(questionDto);
   }
 }

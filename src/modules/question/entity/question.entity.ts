@@ -26,7 +26,10 @@ export class Question {
   @Column()
   examId: string;
 
-  @OneToMany(() => Option, (option) => option.question, { eager: true })
+  @OneToMany(() => Option, (option) => option.question, {
+    eager: true,
+    cascade: true,
+  })
   options: Option[];
 
   @CreateDateColumn()

@@ -31,7 +31,12 @@ export class ExamService implements ExamServiceInterface {
   }
 
   public async findOne(examDto: FindOneExamIdDto): Promise<Exam> {
-    return await this.examRepository.findById(examDto.id);
+    const exam = await this.examRepository.findById(examDto.id);
+
+    if (!exam)
+      throw new HttpException('the exam with this id does not exist', 404);
+
+    return exam;
   }
 
   public async update(

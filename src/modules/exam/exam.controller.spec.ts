@@ -1,4 +1,3 @@
-import { HttpException } from '@nestjs/common';
 import { Exam, ExamType } from './entity/exam.entity';
 import { ExamController } from './exam.controller';
 import { ExamServiceInterface } from './interface/exam.service.interface';
@@ -141,18 +140,7 @@ describe('Exam Controller', () => {
 
       expect(findOneSpy).toHaveBeenCalledWith(findOneExamDto);
     });
-    test('should throw a HttpException if findOne service method return null', async () => {
-      const { sut, examServiceStub } = makeSut();
 
-      jest.spyOn(examServiceStub, 'findOne').mockReturnValueOnce(null);
-
-      const findOneExamDto = {
-        id: 'any_id',
-      };
-      const promise = sut.findOne(findOneExamDto);
-
-      await expect(promise).rejects.toThrow(HttpException);
-    });
     test('should return a exam on success', async () => {
       const { sut } = makeSut();
 

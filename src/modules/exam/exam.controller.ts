@@ -32,8 +32,6 @@ export class ExamController {
   @Get(':id')
   public async findOne(@Param() examDIdto: FindOneExamIdDto): Promise<Exam> {
     const exam = await this.examService.findOne(examDIdto);
-    if (!exam)
-      throw new HttpException('the exam with this id does not exist', 404);
 
     return exam;
   }

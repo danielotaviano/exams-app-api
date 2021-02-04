@@ -3,6 +3,7 @@ import MockDate from 'mockdate';
 import { ExamService } from './exam.service';
 import { ExamRepositoryInterface } from './interface/exam.repository.interface';
 import { DeleteResult, UpdateResult } from 'typeorm';
+import { HttpException } from '@nestjs/common';
 
 const makeFakeExam = (): Exam => ({
   id: 'any_id',
@@ -135,6 +136,37 @@ describe('Exam Service', () => {
       const response = await sut.list();
 
       expect(response).toEqual(makeFakeExams());
+    });
+  });
+
+  describe('Exam Service delete', () => {
+    test('should calls remove method in repository with correct value', async () => {
+      const { sut, examRepositoryStub } = makeSut();
+
+      const removeSpy = jest.spyOn(examRepositoryStub, 'remove');
+
+      const deleteExamDto = {
+        id: 'any_id',
+      };
+      await sut.delete(deleteExamDto);
+
+      expect(removeSpy).toBeCalledWith('any_id');
+    });
+    test('should throws an HttpException if result.affected is 0', async () => {
+      const { sut, examRepositoryStub } = makeSut();
+
+      jest
+        .spyOn(examRepositoryStub, 'remove')
+        .mockReturnValueOnce(Promise.resolve({ raw: [], affected: 0 }));
+
+      const deleteExamDto = {
+        id: 'any_id',
+      };
+      const promise = sut.delete(deleteExamDto);
+
+      await expect(promise).rejects.toThrow(
+        new HttpException('the exam with this id does not exist', 404),
+      );
     });
   });
 });

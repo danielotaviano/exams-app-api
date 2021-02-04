@@ -180,3 +180,19 @@ describe('Exam Controller delete', () => {
     expect(response).toBeFalsy();
   });
 });
+
+describe('Exam Controller update', () => {
+  test('should call update on service with correct values', async () => {
+    const { sut, examServiceStub } = makeSut();
+
+    const updateSpy = jest.spyOn(examServiceStub, 'update');
+
+    const updateExamIdDto = {
+      id: 'any_id',
+    };
+
+    await sut.update(updateExamIdDto, makeFakeExam());
+
+    expect(updateSpy).toHaveBeenCalledWith(updateExamIdDto, makeFakeExam());
+  });
+});

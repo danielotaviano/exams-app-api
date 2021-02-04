@@ -57,6 +57,8 @@ export class ExamController {
     @Param() examIdDto: UpdateExamIdDto,
     @Body() examDto: UpdateExamDto,
   ) {
-    return await this.examService.update(examIdDto, examDto);
+    const result = await this.examService.update(examIdDto, examDto);
+    if (result.affected === 0)
+      throw new HttpException('the exam with this id does not exist', 404);
   }
 }

@@ -36,8 +36,6 @@ export class ExamService implements ExamServiceInterface {
     examIdDto: UpdateExamIdDto,
     examDto: UpdateExamDto,
   ): Promise<UpdateResult> {
-    const result = await this.examRepository.update(examIdDto.id, examDto);
-
-    return result;
+    return await this.examRepository.update(examIdDto.id, examDto);
   }
 }

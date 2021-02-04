@@ -1,6 +1,7 @@
 import { Exam } from 'src/modules/exam/entity/exam.entity';
 import { Option } from 'src/modules/option/entity/option.entity';
 import {
+  AfterLoad,
   Column,
   CreateDateColumn,
   Entity,
@@ -10,6 +11,7 @@ import {
   PrimaryGeneratedColumn,
   UpdateDateColumn,
 } from 'typeorm';
+import { shuffleArray } from '../utils/shuffle-array';
 
 @Entity({ name: 'questions' })
 export class Question {
@@ -37,4 +39,19 @@ export class Question {
 
   @UpdateDateColumn()
   updatedAt: Date;
+
+  @AfterLoad()
+  randomizeOptions() {
+    const shuffledOptions = shuffleArray(this.options);
+
+    this.options = shuffledOptions;
+  }
+
+  @AfterLoad()
+  setKeys() {
+    this.options.reduce((code, crr) => {
+      crr.key = String.fromCharCode(code);
+      return code + 1;
+    }, 97);
+  }
 }

@@ -1,7 +1,10 @@
+import { Exam } from 'src/modules/exam/entity/exam.entity';
 import {
   Column,
   CreateDateColumn,
   Entity,
+  JoinColumn,
+  ManyToOne,
   PrimaryGeneratedColumn,
   UpdateDateColumn,
 } from 'typeorm';
@@ -13,6 +16,13 @@ export class Question {
 
   @Column({ nullable: false, type: 'varchar' })
   statement: string;
+
+  @ManyToOne(() => Exam, (exam) => exam.questions)
+  @JoinColumn({ name: 'examId' })
+  exam: Exam;
+
+  @Column()
+  examId: string;
 
   @CreateDateColumn()
   createdAt: Date;

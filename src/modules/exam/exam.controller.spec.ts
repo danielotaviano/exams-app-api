@@ -2,6 +2,7 @@ import { HttpException } from '@nestjs/common';
 import { Exam, ExamType } from './entity/exam.entity';
 import { ExamController } from './exam.controller';
 import { ExamServiceInterface } from './interface/exam.service.interface';
+import MockDate from 'mockdate';
 const makeFakeExam = (): Exam => ({
   id: 'any_id',
   name: 'any_name',
@@ -70,129 +71,149 @@ const makeSut = (): SutTypes => {
   };
 };
 
-describe('Exam Controller List', () => {
-  test('should call list on service', async () => {
-    const { sut, examServiceStub } = makeSut();
-
-    const listSpy = jest.spyOn(examServiceStub, 'list');
-
-    await sut.list();
-
-    expect(listSpy).toHaveBeenCalled();
+describe('Exam Controller', () => {
+  beforeAll(() => {
+    MockDate.set(new Date());
   });
-  test('should return a list of exams on success', async () => {
-    const { sut } = makeSut();
-
-    const exams = await sut.list();
-
-    expect(exams).toEqual(makeFakeExams());
+  afterAll(() => {
+    MockDate.reset();
   });
-});
 
-describe('Exam Controller Create', () => {
-  test('should call create on service with correct values', async () => {
-    const { sut, examServiceStub } = makeSut();
+  describe('Exam Controller List', () => {
+    test('should call list on service', async () => {
+      const { sut, examServiceStub } = makeSut();
 
-    const createSpy = jest.spyOn(examServiceStub, 'create');
-    const createExamDto = {
-      name: 'any_name',
-      description: 'any_description',
-      type: 'any_type' as ExamType,
-    };
+      const listSpy = jest.spyOn(examServiceStub, 'list');
 
-    await sut.create(createExamDto);
+      await sut.list();
 
-    expect(createSpy).toHaveBeenCalledWith(createExamDto);
+      expect(listSpy).toHaveBeenCalled();
+    });
+    test('should return a list of exams on success', async () => {
+      const { sut } = makeSut();
+
+      const exams = await sut.list();
+
+      expect(exams).toEqual(makeFakeExams());
+    });
   });
-  test('should return a exam on success', async () => {
-    const { sut } = makeSut();
 
-    const createExamDto = {
-      name: 'any_name',
-      description: 'any_description',
-      type: 'any_type' as ExamType,
-    };
+  describe('Exam Controller Create', () => {
+    test('should call create on service with correct values', async () => {
+      const { sut, examServiceStub } = makeSut();
 
-    const exam = await sut.create(createExamDto);
+      const createSpy = jest.spyOn(examServiceStub, 'create');
+      const createExamDto = {
+        name: 'any_name',
+        description: 'any_description',
+        type: 'any_type' as ExamType,
+      };
 
-    expect(exam).toEqual(makeFakeExam());
+      await sut.create(createExamDto);
+
+      expect(createSpy).toHaveBeenCalledWith(createExamDto);
+    });
+    test('should return a exam on success', async () => {
+      const { sut } = makeSut();
+
+      const createExamDto = {
+        name: 'any_name',
+        description: 'any_description',
+        type: 'any_type' as ExamType,
+      };
+
+      const exam = await sut.create(createExamDto);
+
+      expect(exam).toEqual(makeFakeExam());
+    });
   });
-});
 
-describe('Exam Controller FindOne', () => {
-  test('should call findOne on service with correct values', async () => {
-    const { sut, examServiceStub } = makeSut();
+  describe('Exam Controller FindOne', () => {
+    test('should call findOne on service with correct values', async () => {
+      const { sut, examServiceStub } = makeSut();
 
-    const findOneSpy = jest.spyOn(examServiceStub, 'findOne');
+      const findOneSpy = jest.spyOn(examServiceStub, 'findOne');
 
-    const findOneExamDto = {
-      id: 'any_id',
-    };
-    await sut.findOne(findOneExamDto);
+      const findOneExamDto = {
+        id: 'any_id',
+      };
+      await sut.findOne(findOneExamDto);
 
-    expect(findOneSpy).toHaveBeenCalledWith(findOneExamDto);
+      expect(findOneSpy).toHaveBeenCalledWith(findOneExamDto);
+    });
+    test('should throw a HttpException if findOne service method return null', async () => {
+      const { sut, examServiceStub } = makeSut();
+
+      jest.spyOn(examServiceStub, 'findOne').mockReturnValueOnce(null);
+
+      const findOneExamDto = {
+        id: 'any_id',
+      };
+      const promise = sut.findOne(findOneExamDto);
+
+      await expect(promise).rejects.toThrow(HttpException);
+    });
+    test('should return a exam on success', async () => {
+      const { sut } = makeSut();
+
+      const findOneExamDto = {
+        id: 'any_id',
+      };
+      const exam = await sut.findOne(findOneExamDto);
+
+      expect(exam).toEqual(makeFakeExam());
+    });
   });
-  test('should throw a HttpException if findOne service method return null', async () => {
-    const { sut, examServiceStub } = makeSut();
 
-    jest.spyOn(examServiceStub, 'findOne').mockReturnValueOnce(null);
+  describe('Exam Controller delete', () => {
+    test('should call delete on service with correct values', async () => {
+      const { sut, examServiceStub } = makeSut();
 
-    const findOneExamDto = {
-      id: 'any_id',
-    };
-    const promise = sut.findOne(findOneExamDto);
+      const deleteeSpy = jest.spyOn(examServiceStub, 'delete');
 
-    await expect(promise).rejects.toThrow(HttpException);
+      const deleteExamDto = {
+        id: 'any_id',
+      };
+      await sut.delete(deleteExamDto);
+
+      expect(deleteeSpy).toHaveBeenCalledWith(deleteExamDto);
+    });
+    test('should not return on success', async () => {
+      const { sut } = makeSut();
+
+      const deleteExamDto = {
+        id: 'any_id',
+      };
+      const response = await sut.delete(deleteExamDto);
+
+      expect(response).toBeFalsy();
+    });
   });
-  test('should return a exam on success', async () => {
-    const { sut } = makeSut();
 
-    const findOneExamDto = {
-      id: 'any_id',
-    };
-    const exam = await sut.findOne(findOneExamDto);
+  describe('Exam Controller update', () => {
+    test('should call update on service with correct values', async () => {
+      const { sut, examServiceStub } = makeSut();
 
-    expect(exam).toEqual(makeFakeExam());
-  });
-});
+      const updateSpy = jest.spyOn(examServiceStub, 'update');
 
-describe('Exam Controller delete', () => {
-  test('should call delete on service with correct values', async () => {
-    const { sut, examServiceStub } = makeSut();
+      const updateExamIdDto = {
+        id: 'any_id',
+      };
 
-    const deleteeSpy = jest.spyOn(examServiceStub, 'delete');
+      await sut.update(updateExamIdDto, makeFakeExam());
 
-    const deleteExamDto = {
-      id: 'any_id',
-    };
-    await sut.delete(deleteExamDto);
+      expect(updateSpy).toHaveBeenCalledWith(updateExamIdDto, makeFakeExam());
+    });
+    test('should not return on success', async () => {
+      const { sut } = makeSut();
 
-    expect(deleteeSpy).toHaveBeenCalledWith(deleteExamDto);
-  });
-  test('should not return on success', async () => {
-    const { sut } = makeSut();
+      const updateExamIdDto = {
+        id: 'any_id',
+      };
 
-    const deleteExamDto = {
-      id: 'any_id',
-    };
-    const response = await sut.delete(deleteExamDto);
+      const response = await sut.update(updateExamIdDto, makeFakeExam());
 
-    expect(response).toBeFalsy();
-  });
-});
-
-describe('Exam Controller update', () => {
-  test('should call update on service with correct values', async () => {
-    const { sut, examServiceStub } = makeSut();
-
-    const updateSpy = jest.spyOn(examServiceStub, 'update');
-
-    const updateExamIdDto = {
-      id: 'any_id',
-    };
-
-    await sut.update(updateExamIdDto, makeFakeExam());
-
-    expect(updateSpy).toHaveBeenCalledWith(updateExamIdDto, makeFakeExam());
+      expect(response).toBeFalsy();
+    });
   });
 });

@@ -1,5 +1,15 @@
-import { Body, Controller, Get, Inject, Param, Post } from '@nestjs/common';
+import {
+  Body,
+  Controller,
+  Delete,
+  Get,
+  HttpCode,
+  Inject,
+  Param,
+  Post,
+} from '@nestjs/common';
 import { CreateQuestionDto } from './dtos/create-question.dto';
+import { DeleteQuestionDto } from './dtos/delete-question.dto';
 import { FindOneQuestionDto } from './dtos/find-one-question.dto';
 import { ListQuestionDto } from './dtos/list-question.dto';
 import { Question } from './entity/question.entity';
@@ -29,5 +39,11 @@ export class QuestionController {
     @Param() questionDto: FindOneQuestionDto,
   ): Promise<Question> {
     return await this.questionService.findOne(questionDto);
+  }
+
+  @HttpCode(204)
+  @Delete(':id')
+  public async delete(@Param() questionDto: DeleteQuestionDto) {
+    await this.questionService.delete(questionDto);
   }
 }

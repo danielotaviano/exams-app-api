@@ -1,5 +1,6 @@
 import { HttpException, Inject, Injectable } from '@nestjs/common';
 import { CreateQuestionDto } from './dtos/create-question.dto';
+import { DeleteQuestionDto } from './dtos/delete-question.dto';
 import { FindOneQuestionDto } from './dtos/find-one-question.dto';
 import { ListQuestionDto } from './dtos/list-question.dto';
 import { Question } from './entity/question.entity';
@@ -35,5 +36,11 @@ export class QuestionService implements QuestionServiceInterface {
   }
   public async findOne(questionDto: FindOneQuestionDto): Promise<Question> {
     return await this.questionsRepository.findById(questionDto.id);
+  }
+  public async delete(questionDto: DeleteQuestionDto): Promise<void> {
+    const result = await this.questionsRepository.remove(questionDto.id);
+
+    if (result.affected === 0)
+      throw new HttpException('the question with this id does not exist', 400);
   }
 }

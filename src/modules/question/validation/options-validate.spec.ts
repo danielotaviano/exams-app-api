@@ -41,5 +41,17 @@ describe('OptionsValidate Validation', () => {
 
       expect(isValid).toBeFalsy();
     });
+    test('should returns true if there is no options with same value', () => {
+      const options: CreateQuestionOptionsDto[] = [
+        { correct: true, value: 'any_value' },
+        { correct: false, value: 'other_value' },
+      ];
+
+      const sut = new OptionsValidate();
+
+      const isValid = sut.validadeEqualValues(options);
+
+      expect(isValid).toBeTruthy();
+    });
   });
 });

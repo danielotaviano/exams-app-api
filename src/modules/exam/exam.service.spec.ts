@@ -105,5 +105,17 @@ describe('Exam Service', () => {
 
       expect(createSpy).toBeCalledWith(createExamDto);
     });
+    test('should return an exam on success', async () => {
+      const { sut } = makeSut();
+
+      const createExamDto = {
+        name: 'any_name',
+        description: 'any_description',
+        type: 'any_type' as ExamType,
+      };
+      const exam = await sut.create(createExamDto);
+
+      expect(exam).toEqual(makeFakeExam());
+    });
   });
 });

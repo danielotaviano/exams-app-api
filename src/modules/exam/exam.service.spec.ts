@@ -179,4 +179,19 @@ describe('Exam Service', () => {
       expect(response).toBeFalsy();
     });
   });
+
+  describe('Exam Service findOne', () => {
+    test('should calls findById method in repository with correct value', async () => {
+      const { sut, examRepositoryStub } = makeSut();
+
+      const findByIdSpy = jest.spyOn(examRepositoryStub, 'findById');
+
+      const deleteExamDto = {
+        id: 'any_id',
+      };
+      await sut.findOne(deleteExamDto);
+
+      expect(findByIdSpy).toBeCalledWith('any_id');
+    });
+  });
 });

@@ -117,3 +117,18 @@ describe('Exam Controller Create', () => {
     expect(exam).toEqual(makeFakeExam());
   });
 });
+
+describe('Exam Controller FindOne', () => {
+  test('should call findOne on service with correct values', async () => {
+    const { sut, examServiceStub } = makeSut();
+
+    const findOneSpy = jest.spyOn(examServiceStub, 'findOne');
+
+    const findOneExamDto = {
+      id: 'any_id',
+    };
+    await sut.findOne(findOneExamDto);
+
+    expect(findOneSpy).toHaveBeenCalledWith(findOneExamDto);
+  });
+});

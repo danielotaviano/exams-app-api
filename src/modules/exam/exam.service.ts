@@ -1,17 +1,17 @@
-import { Injectable } from '@nestjs/common';
-import { InjectRepository } from '@nestjs/typeorm';
-import { Repository } from 'typeorm';
-import { Exam } from './entity/user.entity';
+import { Inject, Injectable } from '@nestjs/common';
+import { Exam } from './entity/exam.entity';
+import { ExamRepositoryInterface } from './interface/exam.repository.interface';
+import { ExamServiceInterface } from './interface/exam.service.interface';
 
 @Injectable()
-export class ExamService {
+export class ExamService implements ExamServiceInterface {
   constructor(
-    @InjectRepository(Exam)
-    private readonly examRepository: Repository<Exam>,
+    @Inject('ExamRepositoryInterface')
+    private readonly examRepository: ExamRepositoryInterface,
   ) {}
   public async create(userDto: any): Promise<Exam> {
     const exam = new Exam();
     Object.assign(exam, userDto);
-    return this.examRepository.save(exam);
+    return this.examRepository.create(exam);
   }
 }

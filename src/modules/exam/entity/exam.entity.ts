@@ -6,7 +6,7 @@ import {
   UpdateDateColumn,
 } from 'typeorm';
 
-type ExamType = 'ONLINE' | 'OFFLINE';
+export type ExamType = 'ONLINE' | 'OFFLINE';
 @Entity({ name: 'exams' })
 export class Exam {
   @PrimaryGeneratedColumn('uuid')

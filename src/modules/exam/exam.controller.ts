@@ -1,13 +1,17 @@
-import { Body, Controller, Post } from '@nestjs/common';
+import { Body, Controller, Inject, Post } from '@nestjs/common';
+import { CreateExamDto } from './dtos/create-exam.dto';
 import { Exam } from './entity/exam.entity';
-import { ExamService } from './exam.service';
+import { ExamServiceInterface } from './interface/exam.service.interface';
 
 @Controller('exams')
 export class ExamController {
-  constructor(private readonly examService: ExamService) {}
+  constructor(
+    @Inject('ExamServiceInterface')
+    private readonly examService: ExamServiceInterface,
+  ) {}
 
   @Post()
-  public async create(@Body() examDto: any): Promise<Exam> {
+  public async create(@Body() examDto: CreateExamDto): Promise<Exam> {
     return await this.examService.create(examDto);
   }
 }

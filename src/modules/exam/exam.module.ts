@@ -3,10 +3,20 @@ import { ExamService } from './exam.service';
 import { Module } from '@nestjs/common';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { Exam } from './entity/exam.entity';
+import { ExamRepository } from 'src/repositories/exam.repository';
 
 @Module({
   imports: [TypeOrmModule.forFeature([Exam])],
   controllers: [ExamController],
-  providers: [ExamService],
+  providers: [
+    {
+      provide: 'ExamRepositoryInterface',
+      useClass: ExamRepository,
+    },
+    {
+      provide: 'ExamServiceInterface',
+      useClass: ExamService,
+    },
+  ],
 })
 export class ExamModule {}

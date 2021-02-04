@@ -193,5 +193,19 @@ describe('Exam Service', () => {
 
       expect(findByIdSpy).toBeCalledWith('any_id');
     });
+    test('should throws a HttpException if findById repository method returns null', async () => {
+      const { sut, examRepositoryStub } = makeSut();
+
+      jest.spyOn(examRepositoryStub, 'findById').mockReturnValueOnce(null);
+
+      const deleteExamDto = {
+        id: 'any_id',
+      };
+      const promise = sut.findOne(deleteExamDto);
+
+      await expect(promise).rejects.toThrow(
+        new HttpException('the exam with this id does not exist', 404),
+      );
+    });
   });
 });

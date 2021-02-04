@@ -129,5 +129,12 @@ describe('Exam Service', () => {
 
       expect(listSpy).toBeCalled();
     });
+    test('should return an exams on success', async () => {
+      const { sut } = makeSut();
+
+      const response = await sut.list();
+
+      expect(response).toEqual(makeFakeExams());
+    });
   });
 });

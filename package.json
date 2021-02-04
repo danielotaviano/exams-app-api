@@ -72,7 +72,9 @@
       "^.+\\.(t|j)s$": "ts-jest"
     },
     "collectCoverageFrom": [
-      "**/*.(t|j)s"
+      "**/*.(t|j)s",
+      "!**/**.dto.ts",
+      "!**/**.entity.ts"
     ],
     "coverageDirectory": "../coverage",
     "testEnvironment": "node",
@@ -83,5 +85,6 @@
     "moduleNameMapper": {
       "^src/(.*)$": "<rootDir>/$1"
     }
+
   }
 }

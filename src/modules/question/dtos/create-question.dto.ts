@@ -10,9 +10,6 @@ import {
 
 export class CreateQuestionOptionsDto {
   @IsNotEmpty()
-  key: string;
-
-  @IsNotEmpty()
   value: string;
 
   @IsNotEmpty()

@@ -15,5 +15,17 @@ describe('OptionsValidate Validation', () => {
 
       expect(isValid).toBeFalsy();
     });
+    test('should returns true if there is correct option', () => {
+      const options: CreateQuestionOptionsDto[] = [
+        { correct: true, value: 'any_value' },
+        { correct: false, value: 'other_value' },
+      ];
+
+      const sut = new OptionsValidate();
+
+      const isValid = sut.validateCorrectOptions(options);
+
+      expect(isValid).toBeTruthy();
+    });
   });
 });

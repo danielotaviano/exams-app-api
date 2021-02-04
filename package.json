@@ -77,7 +77,8 @@
       "!**/**.dto.ts",
       "!**/**.entity.ts",
       "!**/**.module.ts",
-      "!**/database/config/*.ts"
+      "!**/database/config/*.ts",
+      "!configs/*.ts"
     ],
     "coverageDirectory": "../coverage",
     "testEnvironment": "node",

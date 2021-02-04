@@ -144,4 +144,14 @@ describe('Exam Controller FindOne', () => {
 
     await expect(promise).rejects.toThrow(HttpException);
   });
+  test('should return a exam on success', async () => {
+    const { sut } = makeSut();
+
+    const findOneExamDto = {
+      id: 'any_id',
+    };
+    const exam = await sut.findOne(findOneExamDto);
+
+    expect(exam).toEqual(makeFakeExam());
+  });
 });

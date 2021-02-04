@@ -21,7 +21,10 @@ export class Option {
   @Column({ nullable: false, type: 'boolean' })
   correct: boolean;
 
-  @ManyToOne(() => Question, (question) => question.options)
+  @ManyToOne(() => Question, (question) => question.options, {
+    onDelete: 'CASCADE',
+    onUpdate: 'CASCADE',
+  })
   question: Question[];
 
   @CreateDateColumn()

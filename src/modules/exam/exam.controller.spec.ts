@@ -169,4 +169,14 @@ describe('Exam Controller delete', () => {
 
     expect(deleteeSpy).toHaveBeenCalledWith(deleteExamDto);
   });
+  test('should not return on success', async () => {
+    const { sut } = makeSut();
+
+    const deleteExamDto = {
+      id: 'any_id',
+    };
+    const response = await sut.delete(deleteExamDto);
+
+    expect(response).toBeFalsy();
+  });
 });

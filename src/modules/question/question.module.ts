@@ -4,6 +4,7 @@ import { QuestionRepository } from 'src/repositories/question.repository';
 import { Question } from './entity/question.entity';
 import { QuestionController } from './question.controller';
 import { QuestionService } from './question.service';
+import { OptionsValidate } from './validation/options-validate';
 
 @Module({
   imports: [TypeOrmModule.forFeature([Question])],
@@ -16,6 +17,10 @@ import { QuestionService } from './question.service';
     {
       provide: 'QuestionRepositoryInterface',
       useClass: QuestionRepository,
+    },
+    {
+      provide: 'OptionsValidateInterface',
+      useClass: OptionsValidate,
     },
   ],
 })

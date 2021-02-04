@@ -1,4 +1,24 @@
-import { IsNotEmpty, IsUUID } from 'class-validator';
+import { Type } from 'class-transformer';
+import {
+  ArrayMinSize,
+  IsArray,
+  IsBoolean,
+  IsNotEmpty,
+  IsUUID,
+  ValidateNested,
+} from 'class-validator';
+
+export class CreateQuestionOptionsDto {
+  @IsNotEmpty()
+  key: string;
+
+  @IsNotEmpty()
+  value: string;
+
+  @IsNotEmpty()
+  @IsBoolean()
+  correct: boolean;
+}
 
 export class CreateQuestionDto {
   @IsNotEmpty()
@@ -7,4 +27,10 @@ export class CreateQuestionDto {
   @IsNotEmpty()
   @IsUUID()
   examId: string;
+
+  @ValidateNested()
+  @Type(() => CreateQuestionOptionsDto)
+  @IsArray()
+  @ArrayMinSize(2)
+  options: CreateQuestionOptionsDto[];
 }

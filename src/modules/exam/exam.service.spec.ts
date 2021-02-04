@@ -186,10 +186,10 @@ describe('Exam Service', () => {
 
       const findByIdSpy = jest.spyOn(examRepositoryStub, 'findById');
 
-      const deleteExamDto = {
+      const findOneExamDto = {
         id: 'any_id',
       };
-      await sut.findOne(deleteExamDto);
+      await sut.findOne(findOneExamDto);
 
       expect(findByIdSpy).toBeCalledWith('any_id');
     });
@@ -198,14 +198,24 @@ describe('Exam Service', () => {
 
       jest.spyOn(examRepositoryStub, 'findById').mockReturnValueOnce(null);
 
-      const deleteExamDto = {
+      const findOneExamDto = {
         id: 'any_id',
       };
-      const promise = sut.findOne(deleteExamDto);
+      const promise = sut.findOne(findOneExamDto);
 
       await expect(promise).rejects.toThrow(
         new HttpException('the exam with this id does not exist', 404),
       );
+    });
+    test('should returns an exam on success', async () => {
+      const { sut } = makeSut();
+
+      const findOneExamDto = {
+        id: 'any_id',
+      };
+      const response = await sut.findOne(findOneExamDto);
+
+      expect(response).toEqual(makeFakeExam());
     });
   });
 });

@@ -1,4 +1,4 @@
-import { Exam } from './entity/exam.entity';
+import { Exam, ExamType } from './entity/exam.entity';
 import { ExamController } from './exam.controller';
 import { ExamServiceInterface } from './interface/exam.service.interface';
 const makeFakeExam = (): Exam => ({
@@ -85,5 +85,35 @@ describe('Exam Controller List', () => {
     const exams = await sut.list();
 
     expect(exams).toEqual(makeFakeExams());
+  });
+});
+
+describe('Exam Controller Create', () => {
+  test('should call create on service with correct values', async () => {
+    const { sut, examServiceStub } = makeSut();
+
+    const createSpy = jest.spyOn(examServiceStub, 'create');
+    const createExamDto = {
+      name: 'any_name',
+      description: 'any_description',
+      type: 'any_type' as ExamType,
+    };
+
+    await sut.create(createExamDto);
+
+    expect(createSpy).toHaveBeenCalledWith(createExamDto);
+  });
+  test('should return a exam on success', async () => {
+    const { sut } = makeSut();
+
+    const createExamDto = {
+      name: 'any_name',
+      description: 'any_description',
+      type: 'any_type' as ExamType,
+    };
+
+    const exam = await sut.create(createExamDto);
+
+    expect(exam).toEqual(makeFakeExam());
   });
 });

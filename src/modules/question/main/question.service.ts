@@ -11,6 +11,7 @@ import { Question } from '../entity/question.entity';
 import { OptionsValidateInterface } from '../interface/options-validate.interface';
 import { QuestionRepositoryInterface } from '../interface/question.repository.interface';
 import { QuestionServiceInterface } from '../interface/question.service.interface';
+import { RandomizeQuestionsInterface } from '../interface/randomize-questions.interface';
 
 @Injectable()
 export class QuestionService implements QuestionServiceInterface {
@@ -23,6 +24,8 @@ export class QuestionService implements QuestionServiceInterface {
     private readonly optionRepository: OptionRepositoryInterface,
     @Inject('ExamRepositoryInterface')
     private readonly examRepository: ExamRepositoryInterface,
+    @Inject('RandomizeQuestionsInterface')
+    private readonly randomizeQuestions: RandomizeQuestionsInterface,
   ) {}
 
   public async create(questionDto: CreateQuestionDto): Promise<Question> {
@@ -46,7 +49,13 @@ export class QuestionService implements QuestionServiceInterface {
   }
 
   public async list(questionDto: ListQuestionDto): Promise<Question[]> {
-    return await this.questionsRepository.findByExamId(questionDto.examId);
+    const questions = await this.questionsRepository.findByExamId(
+      questionDto.examId,
+    );
+
+    const randomizedQuestions = this.randomizeQuestions.randomize(questions);
+
+    return randomizedQuestions;
   }
 
   public async findOne(questionDto: FindOneQuestionDto): Promise<Question> {

@@ -200,4 +200,32 @@ describe('Question Service', () => {
       expect(exam).toEqual(makeFakeQuestion());
     });
   });
+
+  describe('Question Service list', () => {
+    test('should calls findByExamId method in repository', async () => {
+      const { sut, questionRepositoryStub } = makeSut();
+
+      const findByExamIdSpy = jest.spyOn(
+        questionRepositoryStub,
+        'findByExamId',
+      );
+
+      const listQuestionDto = {
+        examId: 'any_id',
+      };
+      await sut.list(listQuestionDto);
+
+      expect(findByExamIdSpy).toBeCalledWith('any_id');
+    });
+    test('should return a questions on success', async () => {
+      const { sut } = makeSut();
+
+      const listQuestionDto = {
+        examId: 'any_id',
+      };
+      const response = await sut.list(listQuestionDto);
+
+      expect(response).toEqual(makeFakeQuestions());
+    });
+  });
 });

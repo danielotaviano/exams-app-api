@@ -131,7 +131,7 @@ describe('Exam Controller', () => {
     });
   });
 
-  describe('Question Controller FindOne', () => {
+  describe('Question Controller findOne', () => {
     test('should call findOne on service with correct values', async () => {
       const { sut, questionServiceStub } = makeSut();
 
@@ -154,6 +154,31 @@ describe('Exam Controller', () => {
       const exam = await sut.findOne(findOneQuestionDto);
 
       expect(exam).toEqual(makeFakeQuestion());
+    });
+  });
+
+  describe('Question Controller delete', () => {
+    test('should call delete on service with correct values', async () => {
+      const { sut, questionServiceStub } = makeSut();
+
+      const deleteSpy = jest.spyOn(questionServiceStub, 'delete');
+
+      const deleteQuestionDto = {
+        id: 'any_id',
+      };
+      await sut.delete(deleteQuestionDto);
+
+      expect(deleteSpy).toHaveBeenCalledWith(deleteQuestionDto);
+    });
+    test('should not return on success', async () => {
+      const { sut } = makeSut();
+
+      const deleteQuestionDto = {
+        id: 'any_id',
+      };
+      const response = await sut.delete(deleteQuestionDto);
+
+      expect(response).toBeFalsy();
     });
   });
 });

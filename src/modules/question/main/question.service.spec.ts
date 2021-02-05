@@ -9,6 +9,7 @@ import { Option } from 'src/modules/option/entity/option.entity';
 import { HttpException } from '@nestjs/common';
 import { ExamRepositoryInterface } from 'src/modules/exam/interface/exam.repository.interface';
 import { Exam } from 'src/modules/exam/entity/exam.entity';
+import { RandomizeQuestionsInterface } from '../interface/randomize-questions.interface';
 
 const makeFakeQuestion = (): Question =>
   Object.assign(new Question(), {
@@ -217,12 +218,22 @@ const makeExamRepository = (): ExamRepositoryInterface => {
   return new ExamRepositoryStub();
 };
 
+const makeRandomizeQuestions = (): RandomizeQuestionsInterface => {
+  class RandomizeQuestionsStub implements RandomizeQuestionsInterface {
+    public randomize(): Question[] {
+      return makeFakeQuestions();
+    }
+  }
+  return new RandomizeQuestionsStub();
+};
+
 type SutTypes = {
   sut: QuestionService;
   questionRepositoryStub: QuestionRepositoryInterface;
   optionRepositoryStub: OptionRepositoryInterface;
   optionsValidateStub: OptionsValidateInterface;
   examRepositoryStub: ExamRepositoryInterface;
+  randomizeQuestionsStub: RandomizeQuestionsInterface;
 };
 
 const makeSut = (): SutTypes => {
@@ -230,11 +241,13 @@ const makeSut = (): SutTypes => {
   const optionsValidateStub = makeOptionsValidate();
   const optionRepositoryStub = makeOptionRepository();
   const examRepositoryStub = makeExamRepository();
+  const randomizeQuestionsStub = makeRandomizeQuestions();
   const sut = new QuestionService(
     questionRepositoryStub,
     optionsValidateStub,
     optionRepositoryStub,
     examRepositoryStub,
+    randomizeQuestionsStub,
   );
   return {
     sut,
@@ -242,6 +255,7 @@ const makeSut = (): SutTypes => {
     optionRepositoryStub,
     optionsValidateStub,
     examRepositoryStub,
+    randomizeQuestionsStub,
   };
 };
 
@@ -349,6 +363,18 @@ describe('Question Service', () => {
       await sut.list(listQuestionDto);
 
       expect(findByExamIdSpy).toBeCalledWith('any_id');
+    });
+    test('should call RandomizeQuestions with correct questions', async () => {
+      const { sut, randomizeQuestionsStub } = makeSut();
+
+      const randomizeSpy = jest.spyOn(randomizeQuestionsStub, 'randomize');
+
+      const listQuestionDto = {
+        examId: 'any_id',
+      };
+      await sut.list(listQuestionDto);
+
+      expect(randomizeSpy).toBeCalledWith(makeFakeQuestions());
     });
     test('should return a questions on success', async () => {
       const { sut } = makeSut();

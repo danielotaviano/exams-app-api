@@ -1,9 +1,9 @@
-import { ExamModule } from './modules/exam/exam.module';
+import { ExamModule } from './modules/exam/main/exam.module';
 import { Module } from '@nestjs/common';
 import { ConfigModule } from '@nestjs/config';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { ormConfig } from './database/config/ormconfig';
-import { QuestionModule } from './modules/question/question.module';
+import { QuestionModule } from './modules/question/main/question.module';
 import { OptionModule } from './modules/option/option.module';
 
 @Module({

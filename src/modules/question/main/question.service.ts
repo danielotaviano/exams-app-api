@@ -1,15 +1,15 @@
 import { HttpException, Inject, Injectable } from '@nestjs/common';
 import { UpdateResult } from 'typeorm';
-import { OptionRepositoryInterface } from '../option/interface/option.repository.interface';
-import { CreateQuestionDto } from './dtos/create-question.dto';
-import { DeleteQuestionDto } from './dtos/delete-question.dto';
-import { FindOneQuestionDto } from './dtos/find-one-question.dto';
-import { ListQuestionDto } from './dtos/list-question.dto';
-import { UpdateQuestionDto } from './dtos/update-question.dto';
-import { Question } from './entity/question.entity';
-import { OptionsValidateInterface } from './interface/options-validate.interface';
-import { QuestionRepositoryInterface } from './interface/question.repository.interface';
-import { QuestionServiceInterface } from './interface/question.service.interface';
+import { OptionRepositoryInterface } from '../../option/interface/option.repository.interface';
+import { CreateQuestionDto } from '../dtos/create-question.dto';
+import { DeleteQuestionDto } from '../dtos/delete-question.dto';
+import { FindOneQuestionDto } from '../dtos/find-one-question.dto';
+import { ListQuestionDto } from '../dtos/list-question.dto';
+import { UpdateQuestionDto } from '../dtos/update-question.dto';
+import { Question } from '../entity/question.entity';
+import { OptionsValidateInterface } from '../interface/options-validate.interface';
+import { QuestionRepositoryInterface } from '../interface/question.repository.interface';
+import { QuestionServiceInterface } from '../interface/question.service.interface';
 
 @Injectable()
 export class QuestionService implements QuestionServiceInterface {

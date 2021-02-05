@@ -2,7 +2,7 @@ import { ExamController } from './exam.controller';
 import { ExamService } from './exam.service';
 import { Module } from '@nestjs/common';
 import { TypeOrmModule } from '@nestjs/typeorm';
-import { Exam } from './entity/exam.entity';
+import { Exam } from '../entity/exam.entity';
 import { ExamRepository } from 'src/repositories/exam.repository';
 
 @Module({

@@ -1,7 +1,7 @@
-import { Exam, ExamType } from './entity/exam.entity';
+import { Exam, ExamType } from '../entity/exam.entity';
 import MockDate from 'mockdate';
 import { ExamService } from './exam.service';
-import { ExamRepositoryInterface } from './interface/exam.repository.interface';
+import { ExamRepositoryInterface } from '../interface/exam.repository.interface';
 import { DeleteResult, UpdateResult } from 'typeorm';
 import { HttpException } from '@nestjs/common';
 

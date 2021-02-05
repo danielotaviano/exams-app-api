@@ -10,12 +10,12 @@ import {
   Post,
   Put,
 } from '@nestjs/common';
-import { CreateExamDto } from './dtos/create-exam.dto';
-import { FindOneExamIdDto } from './dtos/find-one-exam-id.dto';
-import { DeleteExamIdDto } from './dtos/remove-exam-id.dto';
-import { UpdateExamDto, UpdateExamIdDto } from './dtos/update-exam.dto';
-import { Exam } from './entity/exam.entity';
-import { ExamServiceInterface } from './interface/exam.service.interface';
+import { CreateExamDto } from '../dtos/create-exam.dto';
+import { FindOneExamIdDto } from '../dtos/find-one-exam-id.dto';
+import { DeleteExamIdDto } from '../dtos/remove-exam-id.dto';
+import { UpdateExamDto, UpdateExamIdDto } from '../dtos/update-exam.dto';
+import { Exam } from '../entity/exam.entity';
+import { ExamServiceInterface } from '../interface/exam.service.interface';
 
 @Controller('exams')
 export class ExamController {

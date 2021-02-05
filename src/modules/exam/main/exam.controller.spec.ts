@@ -1,6 +1,6 @@
-import { Exam, ExamType } from './entity/exam.entity';
+import { Exam, ExamType } from '../entity/exam.entity';
 import { ExamController } from './exam.controller';
-import { ExamServiceInterface } from './interface/exam.service.interface';
+import { ExamServiceInterface } from '../interface/exam.service.interface';
 import MockDate from 'mockdate';
 const makeFakeExam = (): Exam => ({
   id: 'any_id',

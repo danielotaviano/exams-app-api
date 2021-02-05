@@ -1,11 +1,11 @@
 import { HttpException, Inject, Injectable } from '@nestjs/common';
-import { CreateExamDto } from './dtos/create-exam.dto';
-import { FindOneExamIdDto } from './dtos/find-one-exam-id.dto';
-import { DeleteExamIdDto } from './dtos/remove-exam-id.dto';
-import { UpdateExamDto, UpdateExamIdDto } from './dtos/update-exam.dto';
-import { Exam } from './entity/exam.entity';
-import { ExamRepositoryInterface } from './interface/exam.repository.interface';
-import { ExamServiceInterface } from './interface/exam.service.interface';
+import { CreateExamDto } from '../dtos/create-exam.dto';
+import { FindOneExamIdDto } from '../dtos/find-one-exam-id.dto';
+import { DeleteExamIdDto } from '../dtos/remove-exam-id.dto';
+import { UpdateExamDto, UpdateExamIdDto } from '../dtos/update-exam.dto';
+import { Exam } from '../entity/exam.entity';
+import { ExamRepositoryInterface } from '../interface/exam.repository.interface';
+import { ExamServiceInterface } from '../interface/exam.service.interface';
 
 @Injectable()
 export class ExamService implements ExamServiceInterface {

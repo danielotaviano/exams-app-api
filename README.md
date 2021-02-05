@@ -73,7 +73,7 @@ $ yarn
 $ npm install
 
 # Configure sua .env
-## Junto do projeto, vem um arquivo .env.exemple
+## Junto do projeto, vem um arquivo .env.example
 ## Lá vai está descritas todas as variaveis ambientes que terá que ter no seu .env!
 ## Obs: Certifique-se que seu banco de dados está em pé antes de rodar a aplicação
 

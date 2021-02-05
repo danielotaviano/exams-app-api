@@ -6,6 +6,7 @@ import { OptionRepositoryInterface } from 'src/modules/option/interface/option.r
 import { OptionsValidateInterface } from '../interface/options-validate.interface';
 import { Question } from '../entity/question.entity';
 import { Option } from 'src/modules/option/entity/option.entity';
+import { HttpException } from '@nestjs/common';
 
 const makeFakeQuestion = (): Question =>
   Object.assign(new Question(), {
@@ -186,6 +187,24 @@ describe('Question Service', () => {
       await sut.create(createQuestionDto);
 
       expect(createSpy).toBeCalledWith(createQuestionDto);
+    });
+    test('should throw if validateCorrectsOptions return false', async () => {
+      const { sut, optionsValidateStub } = makeSut();
+
+      jest
+        .spyOn(optionsValidateStub, 'validateCorrectOptions')
+        .mockReturnValueOnce(false);
+
+      const createQuestionDto = {
+        examId: 'any_exam_id1',
+        options: [],
+        statement: 'any_statement',
+      };
+      const promise = sut.create(createQuestionDto);
+
+      await expect(promise).rejects.toThrow(
+        new HttpException('must be have at least 1 correct option', 400),
+      );
     });
     test('should return an question on success', async () => {
       const { sut } = makeSut();

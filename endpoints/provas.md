@@ -75,8 +75,8 @@
 `Prova cadastrada`
 ```json
 {
-  "name": "Enem",
-  "description": "Vai se fuder ein",
+  "name": "exam_name",
+  "description": "exam_description",
   "type": "ONLINE",
   "id": "07dafea1-a2bc-4420-805d-9a947d29801a",
   "createdAt": "2021-02-05T14:38:59.338Z",

@@ -111,11 +111,11 @@
  `Obs: Você pode atualizar a opção de uma questão fornecendo obrigatoriamente o id da opção.`
 ```json
 {
-   "name":"exam_name", // Optional
+   "name":"question_name", // Optional
    "options":[
       {
-         "id":"3bd6c69d-ec31-4e9a-8ef2-e973e3a389a1",
-         "value":"Poseidon", // Optional
+         "id":"option_id",
+         "value":"exam_value", // Optional
          "correct":"true || false" // Optional
       }
    ] // Optional

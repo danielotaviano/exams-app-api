@@ -265,4 +265,45 @@ describe('Question Service', () => {
       expect(response).toEqual(makeFakeQuestions());
     });
   });
+
+  describe('Question Service delete', () => {
+    test('should calls remove method in repository with correct value', async () => {
+      const { sut, questionRepositoryStub } = makeSut();
+
+      const removeSpy = jest.spyOn(questionRepositoryStub, 'remove');
+
+      const deleteQuestionDto = {
+        id: 'any_id',
+      };
+      await sut.delete(deleteQuestionDto);
+
+      expect(removeSpy).toBeCalledWith('any_id');
+    });
+    test('should throws an HttpException if result.affected is 0', async () => {
+      const { sut, questionRepositoryStub } = makeSut();
+
+      jest
+        .spyOn(questionRepositoryStub, 'remove')
+        .mockReturnValueOnce(Promise.resolve({ raw: [], affected: 0 }));
+
+      const deleteQuestionDto = {
+        id: 'any_id',
+      };
+      const promise = sut.delete(deleteQuestionDto);
+
+      await expect(promise).rejects.toThrow(
+        new HttpException('the question with this id does not exist', 404),
+      );
+    });
+    test('should not return on success', async () => {
+      const { sut } = makeSut();
+
+      const deleteQuestionDto = {
+        id: 'any_id',
+      };
+      const response = await sut.delete(deleteQuestionDto);
+
+      expect(response).toBeFalsy();
+    });
+  });
 });

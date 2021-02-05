@@ -77,7 +77,7 @@ describe('Exam Controller', () => {
     MockDate.reset();
   });
 
-  describe('Exam Controller create', () => {
+  describe('Question Controller create', () => {
     test('should call create method in service with correct values', async () => {
       const { sut, questionServiceStub } = makeSut();
 
@@ -103,6 +103,31 @@ describe('Exam Controller', () => {
       const response = await sut.create(createQuestionDto);
 
       expect(response).toEqual(makeFakeQuestion());
+    });
+  });
+
+  describe('Question Controller list', () => {
+    test('should call list on service with correct values', async () => {
+      const { sut, questionServiceStub } = makeSut();
+
+      const listSpy = jest.spyOn(questionServiceStub, 'list');
+
+      const listQuestionDto = {
+        examId: 'any_id',
+      };
+      await sut.list(listQuestionDto);
+
+      expect(listSpy).toHaveBeenCalledWith(listQuestionDto);
+    });
+    test('should return a list of exams on success', async () => {
+      const { sut } = makeSut();
+
+      const listQuestionDto = {
+        examId: 'any_id',
+      };
+      const questions = await sut.list(listQuestionDto);
+
+      expect(questions).toEqual(makeFakeQuestions());
     });
   });
 });

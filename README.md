@@ -94,6 +94,12 @@ $ npm run start:dev
 #### [ 📝 Provas](./endpoints/provas.md)
 #### [ ✅ Questões](./endpoints/questoes.md)
 
+## Testes 🧪
+
+
+| Statements                  | Branches                | Functions                 | Lines                |
+| --------------------------- | ----------------------- | ------------------------- | -------------------- |
+| ![Statements](https://img.shields.io/badge/Coverage-100%25-brightgreen.svg) | ![Branches](https://img.shields.io/badge/Coverage-100%25-brightgreen.svg) | ![Functions](https://img.shields.io/badge/Coverage-100%25-brightgreen.svg) | ![Lines](https://img.shields.io/badge/Coverage-100%25-brightgreen.svg)    |
 
 ### Demo Live 🔴
 `URL Base: https://exam-app-demo-live.herokuapp.com`

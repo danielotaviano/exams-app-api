@@ -25,7 +25,7 @@ export class Option {
     onDelete: 'CASCADE',
     onUpdate: 'CASCADE',
   })
-  question: Question[];
+  question: Question;
 
   @CreateDateColumn()
   createdAt: Date;

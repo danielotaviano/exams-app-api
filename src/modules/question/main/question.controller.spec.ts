@@ -181,4 +181,34 @@ describe('Exam Controller', () => {
       expect(response).toBeFalsy();
     });
   });
+
+  describe('Question Controller update', () => {
+    test('should call update on service with correct values', async () => {
+      const { sut, questionServiceStub } = makeSut();
+
+      const updateSpy = jest.spyOn(questionServiceStub, 'update');
+
+      const updateQuestionIdDto = {
+        id: 'any_id',
+      };
+
+      await sut.update(updateQuestionIdDto, makeFakeQuestion());
+
+      expect(updateSpy).toHaveBeenCalledWith('any_id', makeFakeQuestion());
+    });
+    test('should not return on success', async () => {
+      const { sut } = makeSut();
+
+      const updateQuestionIdDto = {
+        id: 'any_id',
+      };
+
+      const response = await sut.update(
+        updateQuestionIdDto,
+        makeFakeQuestion(),
+      );
+
+      expect(response).toBeFalsy();
+    });
+  });
 });

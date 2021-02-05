@@ -26,9 +26,6 @@ export class UpdateQuestionOptionsDto extends Option {
 
 export class UpdateQuestionDto extends Question {
   @IsOptional()
-  description: string;
-
-  @IsOptional()
   statement: string;
 
   @IsOptional()

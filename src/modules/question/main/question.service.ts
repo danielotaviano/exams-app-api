@@ -42,7 +42,12 @@ export class QuestionService implements QuestionServiceInterface {
   }
 
   public async findOne(questionDto: FindOneQuestionDto): Promise<Question> {
-    return await this.questionsRepository.findById(questionDto.id);
+    const question = this.questionsRepository.findById(questionDto.id);
+
+    if (!question)
+      throw new HttpException('the question with this id does not exist', 404);
+
+    return question;
   }
 
   public async delete(questionDto: DeleteQuestionDto): Promise<void> {

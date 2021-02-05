@@ -306,4 +306,43 @@ describe('Question Service', () => {
       expect(response).toBeFalsy();
     });
   });
+
+  describe('Question Service findOne', () => {
+    test('should calls findById method in repository with correct value', async () => {
+      const { sut, questionRepositoryStub } = makeSut();
+
+      const findByIdSpy = jest.spyOn(questionRepositoryStub, 'findById');
+
+      const findOneQuestionDto = {
+        id: 'any_id',
+      };
+      await sut.findOne(findOneQuestionDto);
+
+      expect(findByIdSpy).toBeCalledWith('any_id');
+    });
+    test('should throws a HttpException if findById repository method returns null', async () => {
+      const { sut, questionRepositoryStub } = makeSut();
+
+      jest.spyOn(questionRepositoryStub, 'findById').mockReturnValueOnce(null);
+
+      const findOneQuestionDto = {
+        id: 'any_id',
+      };
+      const promise = sut.findOne(findOneQuestionDto);
+
+      await expect(promise).rejects.toThrow(
+        new HttpException('the question with this id does not exist', 404),
+      );
+    });
+    test('should returns a question on success', async () => {
+      const { sut } = makeSut();
+
+      const findOneExamDto = {
+        id: 'any_id',
+      };
+      const response = await sut.findOne(findOneExamDto);
+
+      expect(response).toEqual(makeFakeQuestion());
+    });
+  });
 });

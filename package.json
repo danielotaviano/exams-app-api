@@ -78,7 +78,9 @@
       "!**/**.entity.ts",
       "!**/**.module.ts",
       "!**/database/config/*.ts",
-      "!configs/*.ts"
+      "!configs/*.ts",
+      "!repositories/**/*.ts",
+      "!main.ts"
     ],
     "coverageDirectory": "../coverage",
     "testEnvironment": "node",

@@ -8,15 +8,18 @@ import { Question } from '../entity/question.entity';
 import { QuestionController } from './question.controller';
 import { QuestionService } from './question.service';
 import { OptionsValidate } from '../validation/options-validate';
+import { ExamModule } from 'src/modules/exam/main/exam.module';
+import { ExamRepository } from 'src/repositories/exam.repository';
+import { Exam } from 'src/modules/exam/entity/exam.entity';
 
 @Module({
-  imports: [
-    TypeOrmModule.forFeature([Question]),
-    TypeOrmModule.forFeature([Option]),
-    OptionModule,
-  ],
+  imports: [TypeOrmModule.forFeature([Question, Option, Exam])],
   controllers: [QuestionController],
   providers: [
+    {
+      provide: 'ExamRepositoryInterface',
+      useClass: ExamRepository,
+    },
     {
       provide: 'OptionRepositoryInterface',
       useClass: OptionRepository,

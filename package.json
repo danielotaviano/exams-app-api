@@ -85,9 +85,7 @@
     "coverageDirectory": "../coverage",
     "testEnvironment": "node",
     "preset": "ts-jest",
-    "modulePaths": [
-      "<rootDir>/src/modules"
-    ],
+
     "moduleNameMapper": {
       "^src/(.*)$": "<rootDir>/$1"
     }

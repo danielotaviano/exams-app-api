@@ -1,4 +1,5 @@
 import { HttpException, Inject, Injectable } from '@nestjs/common';
+import { ExamRepositoryInterface } from 'src/modules/exam/interface/exam.repository.interface';
 import { UpdateResult } from 'typeorm';
 import { OptionRepositoryInterface } from '../../option/interface/option.repository.interface';
 import { CreateQuestionDto } from '../dtos/create-question.dto';
@@ -20,14 +21,21 @@ export class QuestionService implements QuestionServiceInterface {
     private readonly optionsValidate: OptionsValidateInterface,
     @Inject('OptionRepositoryInterface')
     private readonly optionRepository: OptionRepositoryInterface,
+    @Inject('ExamRepositoryInterface')
+    private readonly examRepository: ExamRepositoryInterface,
   ) {}
 
   public async create(questionDto: CreateQuestionDto): Promise<Question> {
+    const isValidExam = await this.examRepository.findById(questionDto.examId);
+    if (!isValidExam)
+      throw new HttpException('There is no exam with the given id', 400);
+
     const isValidOptions = this.optionsValidate.validateCorrectOptions(
       questionDto.options,
     );
     if (!isValidOptions)
       throw new HttpException('must be have at least 1 correct option', 400);
+
     const isValidValues = this.optionsValidate.validateEqualValues(
       questionDto.options,
     );

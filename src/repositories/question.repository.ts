@@ -13,6 +13,9 @@ export class QuestionRepository
   ) {
     super(questionRepository);
   }
+  // public async create(data: Question): Promise<Question> {
+
+  // }
 
   public async findByExamId(examId: string): Promise<Question[]> {
     return await this.questionRepository.find({ where: { examId } });

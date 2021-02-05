@@ -7,7 +7,6 @@ import { SwaggerModule, DocumentBuilder } from '@nestjs/swagger';
 export async function bootstrap() {
   const app = await NestFactory.create(AppModule);
   app.useGlobalPipes(new ValidationPipe(validationConfig));
-
   const config = new DocumentBuilder()
     .setTitle('Exam App')
     .setDescription('Exam App')

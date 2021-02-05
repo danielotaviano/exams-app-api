@@ -7,6 +7,8 @@ import { OptionsValidateInterface } from '../interface/options-validate.interfac
 import { Question } from '../entity/question.entity';
 import { Option } from 'src/modules/option/entity/option.entity';
 import { HttpException } from '@nestjs/common';
+import { ExamRepositoryInterface } from 'src/modules/exam/interface/exam.repository.interface';
+import { Exam } from 'src/modules/exam/entity/exam.entity';
 
 const makeFakeQuestion = (): Question =>
   Object.assign(new Question(), {
@@ -108,6 +110,39 @@ const makeQuestionRepository = (): QuestionRepositoryInterface => {
   return new QuestionRepositoryStub();
 };
 
+const makeFakeExam = (): Exam => ({
+  id: 'any_id',
+  name: 'any_name',
+  description: 'any_description',
+  type: 'OFFLINE',
+  questions: [],
+  createdAt: new Date(),
+  updatedAt: new Date(),
+});
+
+const makeFakeExams = (): Exam[] => {
+  return [
+    {
+      id: 'any_id',
+      name: 'any_name',
+      description: 'any_description',
+      type: 'OFFLINE',
+      questions: [],
+      createdAt: new Date(),
+      updatedAt: new Date(),
+    },
+    {
+      id: 'any_other_id',
+      name: 'any_other_name',
+      description: 'any_other_description',
+      type: 'OFFLINE',
+      questions: [],
+      createdAt: new Date(),
+      updatedAt: new Date(),
+    },
+  ];
+};
+
 const makeOptionsValidate = (): OptionsValidateInterface => {
   class OptionsValidateStub implements OptionsValidateInterface {
     public validateEqualValues(): boolean {
@@ -151,27 +186,62 @@ const makeOptionRepository = (): OptionRepositoryInterface => {
   return new OptionRepositoryStub();
 };
 
+const makeExamRepository = (): ExamRepositoryInterface => {
+  class ExamRepositoryStub implements ExamRepositoryInterface {
+    async create(): Promise<Exam> {
+      return Promise.resolve(makeFakeExam());
+    }
+
+    async findAll(): Promise<Exam[]> {
+      return Promise.resolve(makeFakeExams());
+    }
+
+    async findById(): Promise<Exam> {
+      return Promise.resolve(makeFakeExam());
+    }
+
+    async remove(): Promise<DeleteResult> {
+      const deleteResult: DeleteResult = { raw: [], affected: 1 };
+      return Promise.resolve(deleteResult);
+    }
+
+    async update(): Promise<UpdateResult> {
+      const updateResult: UpdateResult = {
+        generatedMaps: [],
+        affected: 1,
+        raw: [],
+      };
+      return Promise.resolve(updateResult);
+    }
+  }
+  return new ExamRepositoryStub();
+};
+
 type SutTypes = {
   sut: QuestionService;
   questionRepositoryStub: QuestionRepositoryInterface;
   optionRepositoryStub: OptionRepositoryInterface;
   optionsValidateStub: OptionsValidateInterface;
+  examRepositoryStub: ExamRepositoryInterface;
 };
 
 const makeSut = (): SutTypes => {
   const questionRepositoryStub = makeQuestionRepository();
   const optionsValidateStub = makeOptionsValidate();
   const optionRepositoryStub = makeOptionRepository();
+  const examRepositoryStub = makeExamRepository();
   const sut = new QuestionService(
     questionRepositoryStub,
     optionsValidateStub,
     optionRepositoryStub,
+    examRepositoryStub,
   );
   return {
     sut,
     questionRepositoryStub,
     optionRepositoryStub,
     optionsValidateStub,
+    examRepositoryStub,
   };
 };
 
@@ -214,6 +284,22 @@ describe('Question Service', () => {
 
       await expect(promise).rejects.toThrow(
         new HttpException('must be have at least 1 correct option', 400),
+      );
+    });
+    test('should throw if findById method of exam repository return null', async () => {
+      const { sut, examRepositoryStub } = makeSut();
+
+      jest.spyOn(examRepositoryStub, 'findById').mockReturnValueOnce(null);
+
+      const createQuestionDto = {
+        examId: 'any_exam_id',
+        options: [],
+        statement: 'any_statement',
+      };
+      const promise = sut.create(createQuestionDto);
+
+      await expect(promise).rejects.toThrow(
+        new HttpException('There is no exam with the given id', 400),
       );
     });
     test('should throw if validateEqualValues return false', async () => {

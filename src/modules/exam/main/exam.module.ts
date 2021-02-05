@@ -6,7 +6,7 @@ import { Exam } from '../entity/exam.entity';
 import { ExamRepository } from 'src/repositories/exam.repository';
 
 @Module({
-  imports: [TypeOrmModule.forFeature([Exam])],
+  imports: [TypeOrmModule.forFeature([Exam]), Exam],
   controllers: [ExamController],
   providers: [
     {
@@ -18,5 +18,6 @@ import { ExamRepository } from 'src/repositories/exam.repository';
       useClass: ExamService,
     },
   ],
+  exports: [Exam],
 })
 export class ExamModule {}

@@ -8,7 +8,6 @@ import { OptionModule } from './modules/option/option.module';
 
 @Module({
   imports: [
-    ExamModule,
     ConfigModule.forRoot({
       isGlobal: true,
     }),

@@ -28,7 +28,7 @@ export class QuestionService implements QuestionServiceInterface {
     );
     if (!isValidOptions)
       throw new HttpException('must be have at least 1 correct option', 400);
-    const isValidValues = this.optionsValidate.validadeEqualValues(
+    const isValidValues = this.optionsValidate.validateEqualValues(
       questionDto.options,
     );
     if (!isValidValues)

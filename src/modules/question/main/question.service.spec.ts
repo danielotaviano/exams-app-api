@@ -100,7 +100,7 @@ const makeQuestionRepository = (): QuestionRepositoryInterface => {
 
 const makeOptionsValidate = (): OptionsValidateInterface => {
   class OptionsValidateStub implements OptionsValidateInterface {
-    public validadeEqualValues(): boolean {
+    public validateEqualValues(): boolean {
       return true;
     }
     public validateCorrectOptions(): boolean {
@@ -204,6 +204,24 @@ describe('Question Service', () => {
 
       await expect(promise).rejects.toThrow(
         new HttpException('must be have at least 1 correct option', 400),
+      );
+    });
+    test('should throw if validateEqualValues return false', async () => {
+      const { sut, optionsValidateStub } = makeSut();
+
+      jest
+        .spyOn(optionsValidateStub, 'validateEqualValues')
+        .mockReturnValueOnce(false);
+
+      const createQuestionDto = {
+        examId: 'any_exam_id1',
+        options: [],
+        statement: 'any_statement',
+      };
+      const promise = sut.create(createQuestionDto);
+
+      await expect(promise).rejects.toThrow(
+        new HttpException('options value cannot be equal', 400),
       );
     });
     test('should return an question on success', async () => {

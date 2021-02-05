@@ -74,11 +74,10 @@ export class QuestionService implements QuestionServiceInterface {
       operations.push(this.optionRepository.update(option.id, option));
     });
     const operationsResults = await Promise.all(operations);
-    console.log(operationsResults);
-    operationsResults.forEach((operation) => {
+    operationsResults.forEach((operation, index) => {
       if (operation.affected === 0)
         throw new HttpException(
-          'some option was not found, please check the provided id',
+          `option with id ${options[index].id} was not found, please check the provided id`,
           404,
         );
     });

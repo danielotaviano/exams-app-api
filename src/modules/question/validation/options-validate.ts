@@ -15,7 +15,7 @@ export class OptionsValidate implements OptionsValidateInterface {
     return true;
   }
 
-  validadeEqualValues(options: CreateQuestionOptionsDto[]): boolean {
+  validateEqualValues(options: CreateQuestionOptionsDto[]): boolean {
     const state = options.reduce((value, crr) => {
       value[crr.value] ? value[crr.value]++ : (value[crr.value] = 1);
       return value;

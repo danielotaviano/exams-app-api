@@ -37,7 +37,7 @@ describe('OptionsValidate Validation', () => {
 
       const sut = new OptionsValidate();
 
-      const isValid = sut.validadeEqualValues(options);
+      const isValid = sut.validateEqualValues(options);
 
       expect(isValid).toBeFalsy();
     });
@@ -49,7 +49,7 @@ describe('OptionsValidate Validation', () => {
 
       const sut = new OptionsValidate();
 
-      const isValid = sut.validadeEqualValues(options);
+      const isValid = sut.validateEqualValues(options);
 
       expect(isValid).toBeTruthy();
     });

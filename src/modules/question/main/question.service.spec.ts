@@ -12,7 +12,7 @@ const makeFakeQuestion = (): Question =>
   Object.assign(new Question(), {
     id: 'any_id',
     examId: 'any_exam_id',
-    options: [],
+    options: makeFakeOptions(),
     statement: 'any_statement',
     createdAt: new Date(),
     updatedAt: new Date(),
@@ -39,6 +39,14 @@ const makeFakeQuestions = (): Question[] => {
   ];
 };
 
+const makeFakeQuestionWithoutOptions = (): Question =>
+  Object.assign(new Question(), {
+    id: 'any_id',
+    examId: 'any_exam_id',
+    statement: 'any_statement',
+    createdAt: new Date(),
+    updatedAt: new Date(),
+  });
 const makeFakeOption = (): Option =>
   Object.assign(new Option(), {
     value: 'any_value',
@@ -50,12 +58,14 @@ const makeFakeOption = (): Option =>
 const makeFakeOptions = (): Option[] => {
   return [
     Object.assign(new Option(), {
+      id: 'any_id',
       value: 'any_value',
       correct: true,
       createdAt: new Date(),
       updatedAt: new Date(),
     }),
     Object.assign(new Option(), {
+      id: 'other_id',
       value: 'any_value',
       correct: true,
       createdAt: new Date(),
@@ -343,6 +353,81 @@ describe('Question Service', () => {
       const response = await sut.findOne(findOneExamDto);
 
       expect(response).toEqual(makeFakeQuestion());
+    });
+  });
+
+  describe('Question Service update', () => {
+    test('should calls update method in repository with correct value', async () => {
+      const { sut, questionRepositoryStub } = makeSut();
+
+      const updateSpy = jest.spyOn(questionRepositoryStub, 'update');
+
+      await sut.update('any_id', makeFakeQuestion());
+
+      expect(updateSpy).toBeCalledWith(
+        'any_id',
+        makeFakeQuestionWithoutOptions(),
+      );
+    });
+    test('should calls update method in options repository if has any option to update', async () => {
+      const { sut, optionRepositoryStub } = makeSut();
+
+      const updateSpy = jest.spyOn(optionRepositoryStub, 'update');
+
+      await sut.update('any_id', makeFakeQuestion());
+
+      expect(updateSpy).toHaveBeenNthCalledWith(
+        1,
+        'any_id',
+        makeFakeOptions()[0],
+      );
+      expect(updateSpy).toHaveBeenNthCalledWith(
+        2,
+        'other_id',
+        makeFakeOptions()[1],
+      );
+    });
+    test('should throw if result.affected of any options update is 0', async () => {
+      const { sut, optionRepositoryStub } = makeSut();
+
+      jest.spyOn(optionRepositoryStub, 'update').mockReturnValueOnce(
+        Promise.resolve({
+          generatedMaps: [],
+          affected: 0,
+          raw: [],
+        }),
+      );
+
+      const promise = sut.update('any_id', makeFakeQuestion());
+      await expect(promise).rejects.toThrow(
+        new HttpException(
+          'option with id any_id was not found, please check the provided id',
+          404,
+        ),
+      );
+    });
+    test('should throws a HttpException if result.affected is 0', async () => {
+      const { sut, questionRepositoryStub } = makeSut();
+
+      jest
+        .spyOn(questionRepositoryStub, 'update')
+        .mockReturnValueOnce(
+          Promise.resolve({ raw: [], affected: 0, generatedMaps: [] }),
+        );
+
+      const promise = sut.update('any_id', makeFakeQuestion());
+
+      await expect(promise).rejects.toThrow(
+        new HttpException('the question with this id does not exist', 404),
+      );
+    });
+
+    test('should not return on success', async () => {
+      const { sut } = makeSut();
+
+      const response = await sut.update('any_id', makeFakeQuestion());
+
+      expect(response).toBeFalsy();
     });
   });
 });

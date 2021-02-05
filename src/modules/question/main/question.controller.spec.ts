@@ -92,5 +92,17 @@ describe('Exam Controller', () => {
 
       expect(createSpy).toBeCalledWith(createQuestionDto);
     });
+    test('should return a questio on succeds', async () => {
+      const { sut } = makeSut();
+
+      const createQuestionDto = {
+        examId: 'any_exam_id',
+        statement: 'any_statemtn',
+        options: [],
+      };
+      const response = await sut.create(createQuestionDto);
+
+      expect(response).toEqual(makeFakeQuestion());
+    });
   });
 });

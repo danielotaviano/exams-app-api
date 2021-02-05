@@ -119,7 +119,7 @@ describe('Exam Controller', () => {
 
       expect(listSpy).toHaveBeenCalledWith(listQuestionDto);
     });
-    test('should return a list of exams on success', async () => {
+    test('should return a list of questions on success', async () => {
       const { sut } = makeSut();
 
       const listQuestionDto = {
@@ -128,6 +128,32 @@ describe('Exam Controller', () => {
       const questions = await sut.list(listQuestionDto);
 
       expect(questions).toEqual(makeFakeQuestions());
+    });
+  });
+
+  describe('Question Controller FindOne', () => {
+    test('should call findOne on service with correct values', async () => {
+      const { sut, questionServiceStub } = makeSut();
+
+      const findOneSpy = jest.spyOn(questionServiceStub, 'findOne');
+
+      const findOneQuestionDto = {
+        id: 'any_id',
+      };
+      await sut.findOne(findOneQuestionDto);
+
+      expect(findOneSpy).toHaveBeenCalledWith(findOneQuestionDto);
+    });
+
+    test('should return a question on success', async () => {
+      const { sut } = makeSut();
+
+      const findOneQuestionDto = {
+        id: 'any_id',
+      };
+      const exam = await sut.findOne(findOneQuestionDto);
+
+      expect(exam).toEqual(makeFakeQuestion());
     });
   });
 });

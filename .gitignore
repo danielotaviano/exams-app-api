@@ -5,7 +5,8 @@
 
 # ENV
 .env
-
+.env.dev
+.env.dist
 # Logs
 logs
 *.log

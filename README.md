@@ -1,73 +1,120 @@
-<p align="center">
-  <a href="http://nestjs.com/" target="blank"><img src="https://nestjs.com/img/logo_text.svg" width="320" alt="Nest Logo" /></a>
+
+<p style="text-align: center;" width="100%" align="center">
+  <a href="https://github.com/danielotaviano/exams-app-api"  target="blank" title="Exam App">
+    <img src="https://miro.medium.com/max/2400/0*MPWi3-ddPZD0MCQD." width="200px" style="width: 200px;" />
+  </a>
 </p>
+<h2 style="text-align: center;" width="100%" align="center">
+  Exam App
+</h2>
 
-[circleci-image]: https://img.shields.io/circleci/build/github/nestjs/nest/master?token=abc123def456
-[circleci-url]: https://circleci.com/gh/nestjs/nest
 
-  <p align="center">A progressive <a href="http://nodejs.org" target="_blank">Node.js</a> framework for building efficient and scalable server-side applications.</p>
-    <p align="center">
-<a href="https://www.npmjs.com/~nestjscore" target="_blank"><img src="https://img.shields.io/npm/v/@nestjs/core.svg" alt="NPM Version" /></a>
-<a href="https://www.npmjs.com/~nestjscore" target="_blank"><img src="https://img.shields.io/npm/l/@nestjs/core.svg" alt="Package License" /></a>
-<a href="https://www.npmjs.com/~nestjscore" target="_blank"><img src="https://img.shields.io/npm/dm/@nestjs/common.svg" alt="NPM Downloads" /></a>
-<a href="https://circleci.com/gh/nestjs/nest" target="_blank"><img src="https://img.shields.io/circleci/build/github/nestjs/nest/master" alt="CircleCI" /></a>
-<a href="https://coveralls.io/github/nestjs/nest?branch=master" target="_blank"><img src="https://coveralls.io/repos/github/nestjs/nest/badge.svg?branch=master#9" alt="Coverage" /></a>
-<a href="https://discord.gg/G7Qnnhy" target="_blank"><img src="https://img.shields.io/badge/discord-online-brightgreen.svg" alt="Discord"/></a>
-<a href="https://opencollective.com/nest#backer" target="_blank"><img src="https://opencollective.com/nest/backers/badge.svg" alt="Backers on Open Collective" /></a>
-<a href="https://opencollective.com/nest#sponsor" target="_blank"><img src="https://opencollective.com/nest/sponsors/badge.svg" alt="Sponsors on Open Collective" /></a>
-  <a href="https://paypal.me/kamilmysliwiec" target="_blank"><img src="https://img.shields.io/badge/Donate-PayPal-ff3f59.svg"/></a>
-    <a href="https://opencollective.com/nest#sponsor"  target="_blank"><img src="https://img.shields.io/badge/Support%20us-Open%20Collective-41B883.svg" alt="Support us"></a>
-  <a href="https://twitter.com/nestframework" target="_blank"><img src="https://img.shields.io/twitter/follow/nestframework.svg?style=social&label=Follow"></a>
-</p>
-  <!--[![Backers on Open Collective](https://opencollective.com/nest/backers/badge.svg)](https://opencollective.com/nest#backer)
-  [![Sponsors on Open Collective](https://opencollective.com/nest/sponsors/badge.svg)](https://opencollective.com/nest#sponsor)-->
 
-## Description
 
-[Nest](https://github.com/nestjs/nest) framework TypeScript starter repository.
 
-## Installation
+  <a  href="https://www.github.com/danielotaviano" style="margin: auto;">
+    <img align="center" alt="Feito por Daniel" src="https://img.shields.io/badge/feito%20por-Daniel Otaviano-%237519C1">
+  </a>
+
+## Exam App - Back-end 🚪
+
+### Exam App ?   🤔
+
+O Exam App é uma API REST que poderá servir a uma aplicação de provas online.
+
+### Funcionalidades ✔️
+
+- [x] -   Provas (`GET`,  `POST`,  `PUT`,  `DELETE`)
+- [x] -   Questões da prova (`GET`,  `POST`,  `PUT`,  `DELETE`)
+- [x] - Ao listar as questões de prova (GET /questions),  irá retornar as questões em ordem `randomizadas`,  tanto as opções de resposta (`options`), como também as ordens das questões para que cada prova possua uma configuração única e dificultemos a vida de quem cola 😎
+
+
+#### Tecnologias utilizadas 💻
+
+- [TypeScript](https://www.typescriptlang.org/)
+- [NestJS](https://nestjs.com/)
+- [TypeORM](https://typeorm.io/#/)
+- [PostgreSQL](https://www.postgresql.org/)
+
+#### Principais Packages 📦
+- [class-validator](https://github.com/typestack/class-validator)
+- [ESLint](https://eslint.org/)
+- [Prettier](https://prettier.io/)
+- [Jest  🃏](https://jestjs.io/)
+
+#### Aprendizados do projeto 🔥
+
+- Conhecimento com o [NestJS](https://nestjs.com/)
+
+###  Como executar o projeto 🚀
+
+#### Pré-requisitos
+
+Antes de começar, você vai precisar ter instalado em sua máquina as seguintes ferramentas:
+- [Git](https://git-scm.com)
+- [Node.js](https://nodejs.org/en/).
+- Além disto é bom ter um editor para trabalhar com o código como [VSCode](https://code.visualstudio.com/)
+
+#### 🎲 Rodando o Backend (servidor)
 
 ```bash
+
+# Clone este repositório
+$ git clone https://github.com/danielotaviano/exams-app-api
+
+# Acesse a pasta do projeto no terminal/cmd
+$ cd exams-app-api
+
+# Instale as dependências
+## Com Yarn
+$ yarn
+
+## Com Npm
 $ npm install
-```
 
-## Running the app
+# Configure sua .env
+## Junto do projeto, vem um arquivo .env.exemple
+## Lá vai está descritas todas as variaveis ambientes que terá que ter no seu .env!
+## Obs: Certifique-se que seu banco de dados está em pé antes de rodar a aplicação
 
-```bash
-# development
-$ npm run start
+# Execute a aplicação em modo de desenvolvimento
+## Yarn
+$ yarn start:dev
 
-# watch mode
+## Npm
 $ npm run start:dev
 
-# production mode
-$ npm run start:prod
+# O servidor inciará na porta configurada no .env
+# Sua URL base será http://localhost:PORT
+
 ```
 
-## Test
+## Rotas e Endpoints 👾
 
-```bash
-# unit tests
-$ npm run test
+#### [ 📝 Provas](./endpoints/provas.md)
+#### [ ✅ Questões](./endpoints/questoes.md)
 
-# e2e tests
-$ npm run test:e2e
 
-# test coverage
-$ npm run test:cov
-```
+### Demo Live 🔴
+`URL Base: https://exam-app-demo-live.herokuapp.com`
+##### O Servidor e o Database estão hospedados gratuitamente nos respectivos serviços:
+- [Heroku](https://dashboard.heroku.com/)
+- [ElephantSQL](https://www.elephantsql.com/)
 
-## Support
 
-Nest is an MIT-licensed open source project. It can grow thanks to the sponsors and support by the amazing backers. If you'd like to join them, please [read more here](https://docs.nestjs.com/support).
+`Obs: Tanto o banco de dados como a api está hospedados em serviços gratuitos e pode sofrer instabilidades.`
 
-## Stay in touch
+##### Qualquer problema, pode falar comigo por estes meios:
+- [LinkedIn](https://www.linkedin.com/in/daniel-otaviano/)
+- [Twitter](https://twitter.com/danigolkrai)
 
-- Author - [Kamil Myśliwiec](https://kamilmysliwiec.com)
-- Website - [https://nestjs.com](https://nestjs.com/)
-- Twitter - [@nestframework](https://twitter.com/nestframework)
+## 💪 Como contribuir no projeto
 
-## License
+1. Faça um **fork** do projeto.
+2. Crie uma nova branch com as suas alterações: `git checkout -b my-feature`
+3. Salve as alterações e crie uma mensagem de commit contando o que você fez: `git commit -m "feature: My new feature"`
+4. Envie as suas alterações: `git push origin my-feature`
+> Caso tenha alguma dúvida confira este [guia de como contribuir no GitHub](./CONTRIBUTING.md)
 
-Nest is [MIT licensed](LICENSE).
+---
+
